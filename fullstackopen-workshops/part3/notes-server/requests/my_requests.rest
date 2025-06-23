@@ -1,0 +1,19 @@
+DELETE http://localhost:3005/api/notes/2
+
+###
+
+GET http://localhost:3005/api/notes
+
+###
+
+GET http://localhost:3005/api/notes/100
+
+###
+
+POST http://localhost:3005/api/notes
+content-type: application/json
+
+{
+    "content": "sample",
+    "important": "false"
+}
