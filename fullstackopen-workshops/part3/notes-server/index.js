@@ -4,6 +4,36 @@ const express = require('express');
 const app = express();
 const cors = require("cors");
 
+const mongoose = require('mongoose')
+require("dotenv").config();
+
+const url = process.env.MONGODB_URI;
+
+//ORM & ODM
+mongoose.set('strictQuery',false)
+
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+})
+
+noteSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+})
+
+
+
+const Note = mongoose.model('Note', noteSchema)
+//yo Note vane ko mongoose bata banaeyeko object ho, mongodb sanga connect garnw ko lage 
+
+
+
 //use express.json() to read json objects in the request
 app.use(express.json())
 //
@@ -27,38 +57,42 @@ app.use(requestLogger);
 console.log("after app use");
 
 //notes vanne array xa
-let notes = [
-  {
-    id: "1",
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: "2",
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: "3",
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-  {
-    id: "4",
-    content: "Get and post are the most important methods of http protocol",
-    important: false,
-  }
-];
+
+//aba dekhe no need as data persists, database bata aauxa 
+// let notes = [
+//   {
+//     id: "1",
+//     content: "HTML is easy",
+//     important: true,
+//   },
+//   {
+//     id: "2",
+//     content: "Browser can execute only JavaScript",
+//     important: false,
+//   },
+//   {
+//     id: "3",
+//     content: "GET and POST are the most important methods of HTTP protocol",
+//     important: true,
+//   },
+//   {
+//     id: "4",
+//     content: "Get and post are the most important methods of http protocol",
+//     important: false,
+//   }
+// ];
 
 //api
 // app.get('/', (request, response) => {
 //     response.send("<h1>Hello world!</h1>");
 // })
 
-
+let notes =[];
 
 app.get("/api/notes", (request, response) => {
-    response.json(notes);
+  Note.find({}).then((result) => {
+    response.json(result);
+  });
 })
 
 //creating the '/api/notes/:id' route for a 'get' method request
@@ -148,7 +182,18 @@ app.post("/api/notes", (request, response) => {
     notes.push(myNewPost);
     response.status(201).json(myNewPost);
 
+    // const note = new Note({
+//   content: "HTML is Easy",
+//   important: true,
+// });
+
+// note.save().then((result) => {
+//   console.log("note saved!");
+//   mongoose.connection.close();
+// })
 })
+
+
 
 //we are writing our own code 
 app.use((request, response, next) => { 
@@ -166,7 +211,7 @@ app.use((request, response, next) => {
 
 // const PORT = 3005;
 // const PORT = process.env.PORT ? process.env.PORT : 3005;
-const PORT = process.env.PORT ? process.env.PORT : 3005;
-app.listen(PORT);
+// const PORT = process.env.PORT;
+app.listen(process.env.PORT);
 
-console.log(`Server running on port ${PORT}`);
+console.log(`Server running on port ${process.env.PORT}`);
