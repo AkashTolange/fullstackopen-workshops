@@ -13,7 +13,11 @@ GET http://localhost:3005/api/notes/100
 POST http://localhost:3005/api/notes
 content-type: application/json
 
-{
-    "content": "sample",
+# {
+#     "content": "sample",
+#     "important": "false"
+# }
+
+{   "content": "samp",
     "important": "false"
 }
