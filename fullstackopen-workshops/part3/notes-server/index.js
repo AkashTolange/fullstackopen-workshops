@@ -19,6 +19,7 @@ mongoose.connect(url)
 
 const noteSchema = new mongoose.Schema({
   // content: String,
+  //only works for post not while updating 
   content: {
     type: String,
     minLength: 5,
@@ -154,7 +155,7 @@ app.put('/api/notes/:id' , (request, response, next) => {
     important: body.important
   };
 
-  Note.findByIdAndUpdate(request.params.id, note, { new: true})
+  Note.findByIdAndUpdate(request.params.id, note, { new: true, runValidators: true})
   .then((updatedNote) => { 
     response.json(updatedNote);
   })
@@ -202,8 +203,8 @@ app.delete('/api/notes/:id', (request, response, next) => {
 
 app.post('/api/notes', (request, response, next) =>{
   const body = request.body;
-  //
-
+  
+  //new post banauda khere handle garxa error handle garxa schema le tara update garda herdainw 
   //this error handling no need as we have defined that error handling built in xa , mongoose ko schema error handling mw herxa  
   // if( body.content === undefined){
   //   return response.status(400).json({error: "content missing"});
