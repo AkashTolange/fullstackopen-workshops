@@ -21,3 +21,18 @@ content-type: application/json
 {   "content": "samp",
     "important": "false"
 }
+
+###
+PUT  http://localhost:3005/api/notes/685d03c042cb4783470d350b
+content-type: application/json
+
+{
+    "content": "sample note",
+    "important": "false"
+}
+
+##update garda dinxa tara error handle(meaning sam minlength yo error tw catch ) gardainw schema le 
+
+# {   "content": "sam",
+#     "important": "false"
+# }
