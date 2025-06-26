@@ -9,16 +9,25 @@ require("dotenv").config();
 
 const url = process.env.MONGODB_URI;
 
+
+// learn about middleware vs express ko request handler kasare kun order mw run hernu parxa hae 
+
 //ORM & ODM
 mongoose.set('strictQuery',false)
 
 mongoose.connect(url)
 
 const noteSchema = new mongoose.Schema({
-  content: String,
+  // content: String,
+  content: {
+    type: String,
+    minLength: 5,
+    required: true,
+  },
   important: Boolean,
 })
 
+//sir le copy paste garnu vako thiyo
 noteSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
@@ -96,15 +105,22 @@ app.get("/api/notes", (request, response) => {
 })
 
 //creating the '/api/notes/:id' route for a 'get' method request
-app.get("/api/notes/:id", (request, response) => {
-    const myId = request.params.id;
-    const myNote = notes.find((note) => note.id === myId); //enter note object is returned
+app.get("/api/notes/:id", (request, response, next) => {
+    Note.findById(request.params.id).then(result =>{ 
+    // const myId = request.params.id;
+    // const myNote = notes.find((note) => note.id === myId); //enter note object is returned
     //what if it does not find then what 
-    if (myNote ){
-        response.json(myNote);
+    if (result ){
+        response.json(result);
     } else {
-        response.status(300).send(`There are no notes at${myId}`); //not found status
+        response.status(404).send(`There are no notes at${request.params.id}`); //not found status
     }
+   }).catch((e) =>{
+    next(e);
+    // console.log(err);
+    // response.status(500).send(`${request.params.id} is not in the required format`)
+   })
+    
  
 });
 
@@ -129,71 +145,83 @@ app.get("/api/notes/:id", (request, response) => {
 // })
 
 //put - IMPORTANT: This was commented out and has been fixed
-app.put('/api/notes/:id' , (request, response) => {
-  const myId = request.params.id; // id from URL is a string
+app.put('/api/notes/:id' , (request, response, next) => {
+  // const myId = request.params.id; // id from URL is a string
   const body = request.body; // updated note data from request body
 
-  // If the content is missing from the request body, return a 400 Bad Request
-  if (!body.content) {
-    return response.status(400).json({
-      error: 'content missing'
-    });
-  }
-
-  // Find the note to update
-  const noteToUpdate = notes.find(n => n.id === myId);
-
-  if (!noteToUpdate) {
-    // If note not found, return 404 Not Found
-    return response.status(404).send(`Note with ID ${myId} not found.`);
-  }
-
-  // Create the updated note object, preserving the existing ID
-  // The 'important' field is toggled on the frontend and sent in the body
-  const updatedNote = {
-    ...noteToUpdate, // Keep existing properties
-    content: body.content, // Update content from request body
-    important: body.important // Update importance from request body
+  const note ={
+    content: body.content,
+    important: body.important
   };
 
-  // Update the notes array
-  notes = notes.map(note => note.id === myId ? updatedNote : note);
-
-  // Send the updated note back to the client with 200 OK status
-  response.json(updatedNote);
+  Note.findByIdAndUpdate(request.params.id, note, { new: true})
+  .then((updatedNote) => { 
+    response.json(updatedNote);
+  })
+  .catch((error) => next(error));
+  
 });
 
 
 
 //creating the /api/notes/:id route for a 'delete' method request
-app.delete("/api/notes/:id", (request, response) => {
-    const myId = request.params.id;
-    notes = notes.filter((note) => note.id !== myId);
+// app.delete("/api/notes/:id", (request, response) => {
+//     const myId = request.params.id;
+//     notes = notes.filter((note) => note.id !== myId);
 
-    response.status(204).send(`The note at id ${myId} has been deleted`);
-    // response.status(204).end();
+//     response.status(204).send(`The note at id ${myId} has been deleted`);
+//     // response.status(204).end();
+// })
+
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndRemove(request.params.id)
+  .then(result => {
+    response.status(204).end()
+  })
+  .catch(error => next(error))
 })
 
 //creating the 'api/note' route for a 'post' method request
-app.post("/api/notes", (request, response) => { 
-    const myNewPost = request.body;
-    // console.log(myNewPost);
-    myNewPost.id =notes.length + 1;
-    notes.push(myNewPost);
-    response.status(201).json(myNewPost);
+// app.post("/api/notes", (request, response) => { 
+//     const myNewPost = request.body;
+//     // console.log(myNewPost);
+//     myNewPost.id =notes.length + 1;
+//     notes.push(myNewPost);
+//     response.status(201).json(myNewPost);
 
-    // const note = new Note({
-//   content: "HTML is Easy",
-//   important: true,
-// });
+//     // const note = new Note({
+// //   content: "HTML is Easy",
+// //   important: true,
+// // });
 
-// note.save().then((result) => {
-//   console.log("note saved!");
-//   mongoose.connection.close();
+// // note.save().then((result) => {
+// //   console.log("note saved!");
+// //   mongoose.connection.close();
+// // })
 // })
+
+app.post('/api/notes', (request, response, next) =>{
+  const body = request.body;
+  //
+
+  //this error handling no need as we have defined that error handling built in xa , mongoose ko schema error handling mw herxa  
+  // if( body.content === undefined){
+  //   return response.status(400).json({error: "content missing"});
+  // }
+
+const note = new Note({
+  content: body.content,
+  important: body.important || false,
+});
+
+note.save().then((saveNote) => {
+  response.json(saveNote);
+}).catch( e => {
+  // console.log(e);
+  next(e);
+});
+
 })
-
-
 
 //we are writing our own code 
 app.use((request, response, next) => { 
@@ -201,6 +229,26 @@ app.use((request, response, next) => {
     // next();
 })
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  //mongoose schema validation and let's handle error ok
+  if( error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+
+  next(error)
+}
+
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler);
+
+
+//moving error handling into middleware
 
 // const app = http.createServer((request, response) => {
 //   response.writeHead(200, { "Content-Type": "text/json" });
