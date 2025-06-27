@@ -75,8 +75,14 @@ const Appstyle =() =>{
     let postPromise =noteService.create(myNote);
     postPromise.then((createdNote) =>{
         console.log("note created data", createdNote.data);
-        setNotes(notes.concat(createdNote));
+        console.log("Type of createdNote.data:", typeof createdNote.data); // Add this
+        // setNotes(notes.concat(createdNote.data));
         // setNotes(notes.concat(newNote)); but now it will be 
+        if (createdNote.data) {
+          setNotes(notes.concat(createdNote.data));
+        } else {
+          console.error("Created note data is not in expected format:", createdNote.data);
+        }
         setNewNote('');
     }).catch(error => { 
         setNotification(error.response ? error.response.data.error : 'Error creating note');
