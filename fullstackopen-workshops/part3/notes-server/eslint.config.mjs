@@ -17,7 +17,7 @@ export default defineConfig([
   {
     rules: {
       eqeqeq: "error",
-      "no-console": 2,
+      "no-console": 0,
     },
   },
 ]);
