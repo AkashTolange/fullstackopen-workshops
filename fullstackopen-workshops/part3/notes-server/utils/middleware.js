@@ -1,8 +1,12 @@
+
+const { info } = require('./logger'); //importing info from logger
+
+
 const requestLogger = (request, response, next) => {
-  console.log('Method:', request.method) //logs every incoming request's method , path and 
-  console.log('Path:  ', request.path)   // body for debugging or monitoring.
-  console.log('Body:  ', request.body)
-  console.log('---')
+ info('Method:', request.method) //logs every incoming request's method , path and 
+ info('Path:  ', request.path)   // body for debugging or monitoring.
+ info('Body:  ', request.body)
+ info('---')
   // return response.json({message: "Helllo"})
   next()
   // console.log("after next");
