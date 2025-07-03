@@ -31,6 +31,10 @@ mongoose.connect(url)
   console.error("Error connecting to MONGODB:", error.message);
 })
 
+
+//setting up test environment
+// console.log("NODE_ENV is :", process.env.NODE_ENV);
+
 // const noteSchema = new mongoose.Schema({
 //   // content: String,
 //   //only works for post not while updating 
