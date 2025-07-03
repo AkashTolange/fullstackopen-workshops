@@ -1,4 +1,4 @@
-import globals from "globals";
+import globals, { jest } from "globals";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
@@ -6,6 +6,17 @@ export default defineConfig([
     files: ["**/*.js"],
     languageOptions: {
       sourceType: "commonjs",
+      globals: {
+        test: true,
+        expect: true,
+        describe: true,
+        it: true,
+        beforeEach: true,
+        afterEach: true,
+        beforeAll: true,
+        afterAll: true,
+        jest: true,
+      },
     },
   },
   {
