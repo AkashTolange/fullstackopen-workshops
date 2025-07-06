@@ -9,7 +9,7 @@ const noteSchema = new mongoose.Schema({
     minLength: 5,
     required: true,
     user: {
-      type: mongoose.Schema.Types.ObjectId, //yo type reference chae mongoose db le deko ha hae
+      type: mongoose.Schema.Types.ObjectId, //yo type reference chae mongoose db le deko ha
       ref: 'User', // Reference to the User model
     }
   },
