@@ -36,3 +36,23 @@ content-type: application/json
 # {   "content": "sam",
 #     "important": "false"
 # }
+
+###
+POST  http://localhost:3005/api/users/
+content-type: application/json
+
+{   
+    "username": "Ram",
+    "name":"Ram Tolange",
+    "password": "password123"
+}
+
+###686a6b6a0de5f106f5c9a2cb
+### for post 
+POST http://localhost:3005/api/notes
+content-type: application/json
+
+{   "content": "sample by Ram",
+    "important": "false",
+    "userId": "686a6b6a0de5f106f5c9a2cb"
+}
