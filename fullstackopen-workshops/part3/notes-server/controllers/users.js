@@ -73,7 +73,7 @@ app.post("/", async (request, response, next) => {
   const user = new User({    
     username: body.username,
     passwordHash,
-    user: body.user,
+    name: body.name,
   });
 
  
