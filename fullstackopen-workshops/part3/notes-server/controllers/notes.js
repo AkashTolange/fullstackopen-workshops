@@ -1,5 +1,6 @@
 const app = require("express").Router();
 const Note = require("../models/note");
+const User = require("../models/user");
 
 app.get("/", async (request, response) => {
   let result = await Note.find({});
@@ -138,6 +139,7 @@ app.delete("/:id", async (request, response, next) => {
 
 app.post("/", async (request, response, next) => {
   const body = request.body;
+  const user = await User.findById(body.userId);
 
   //new post banauda khere handle garxa error handle garxa schema le tara update garda herdainw
   //this error handling no need as we have defined that error handling built in xa , mongoose ko schema error handling mw herxa
@@ -148,6 +150,7 @@ app.post("/", async (request, response, next) => {
   const note = new Note({
     content: body.content,
     important: body.important || false,
+    user: user._id,
   });
 
   // note.save().then((saveNote) => {
@@ -161,6 +164,9 @@ app.post("/", async (request, response, next) => {
   try { 
     const saveNote = await note.save();
     response.status(201).json(saveNote);
+    //confusing right 
+    user.notes = user.notes.concat(saveNote.id);
+    await user.save();
   } catch (error) {
       next(error);
   }
