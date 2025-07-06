@@ -3,7 +3,11 @@ const Note = require("../models/note");
 const User = require("../models/user");
 
 app.get("/", async (request, response) => {
-  let result = await Note.find({});
+  let result = await Note.find({}).populate("user", 
+    {
+      username: 1,
+      name: 1,
+    });
   response.json(result);
 });
 
