@@ -2,6 +2,9 @@ const app = require("express").Router();
 // const User = require("../models/note");
 const User = require("../models/user");
 
+//importing bcrypt for password hashing
+const bcrypt = require("bcrypt");
+
 app.get("/", async (request, response) => {
   let result = await User.find({});
   response.json(result);
@@ -64,19 +67,25 @@ app.get("/:id", async (request, response, next) => {
 app.post("/", async (request, response, next) => {
   const body = request.body;
 
-  const user = new User({
-    content: body.content,
-    important: body.important || false,
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(body.password, saltRounds);
+
+  const user = new User({    
+    username: body.username,
+    passwordHash,
+    user: body.user,
   });
 
  
   //using async/await
   try { 
-    const saveNote = await note.save();
-    response.status(201).json(saveNote);
+    const saveUser = await user.save();
+    response.status(201).json(saveUser);
   } catch (error) {
       next(error);
   }
 });
+
+//for passsword hashing
 
 module.exports = app;
