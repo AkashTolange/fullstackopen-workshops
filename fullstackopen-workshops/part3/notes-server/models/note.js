@@ -8,12 +8,12 @@ const noteSchema = new mongoose.Schema({
     type: String,
     minLength: 5,
     required: true,
-    user: {
-      type: mongoose.Schema.Types.ObjectId, //yo type reference chae mongoose db le deko ha
-      ref: 'User', // Reference to the User model
-    }
   },
   important: Boolean,
+  user: {
+    type: mongoose.Schema.Types.ObjectId, //yo type reference chae mongoose db le deko ha
+    ref: 'User', // Reference to the User model
+  },
 })
 
 //sir le copy paste garnu vako thiyo
@@ -22,6 +22,7 @@ noteSchema.set("toJSON", {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
+    // delete returnedObject.user; // Remove user field from the response
   },
 })
 
