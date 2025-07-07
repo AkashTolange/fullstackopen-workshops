@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const notesController = require("./controllers/notes")
 const usersController = require("./controllers/users");
+const loginController = require("./controllers/login");
 
 const mongoose = require('mongoose')
 
@@ -253,6 +254,7 @@ console.log("after app use");
 
 app.use("/api/notes", notesController);
 app.use("/api/users", usersController)
+app.use("/api/login", loginController);
 app.use(noHandlers);
 
 // const errorHandler = (error, request, response, next) => {
