@@ -2,6 +2,10 @@ const app = require("express").Router();
 const Note = require("../models/note");
 const User = require("../models/user");
 
+const jwt = require("jsonwebtoken");
+
+
+
 app.get("/", async (request, response) => {
   let result = await Note.find({}).populate("user", 
     {
@@ -141,9 +145,27 @@ app.delete("/:id", async (request, response, next) => {
 // // })
 // })
 
+//utility mw lekhda ni hunthiyo tara aahele ko lage yahe lekehko
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
+
 app.post("/", async (request, response, next) => {
   const body = request.body;
-  const user = await User.findById(body.userId);
+  //getTokenFrom function 
+  
+  try {
+  //copied from fullstackopen 
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  // const user = await User.findById(body.userId);
 
   //new post banauda khere handle garxa error handle garxa schema le tara update garda herdainw
   //this error handling no need as we have defined that error handling built in xa , mongoose ko schema error handling mw herxa
@@ -157,6 +179,15 @@ app.post("/", async (request, response, next) => {
     user: user._id,
   });
 
+const saveNote = await note.save();
+    response.status(201).json(saveNote);
+    //confusing right 
+    user.notes = user.notes.concat(saveNote.id);
+    await user.save();
+
+} catch (error) {
+   next(error);
+}
   // note.save().then((saveNote) => {
   //   response.status(201).json(saveNote);
   // }).catch( e => {
@@ -165,15 +196,15 @@ app.post("/", async (request, response, next) => {
   // });
 
   //using async/await
-  try { 
-    const saveNote = await note.save();
-    response.status(201).json(saveNote);
-    //confusing right 
-    user.notes = user.notes.concat(saveNote.id);
-    await user.save();
-  } catch (error) {
-      next(error);
-  }
+  // try { 
+  //   const saveNote = await note.save();
+  //   response.status(201).json(saveNote);
+  //   //confusing right 
+  //   user.notes = user.notes.concat(saveNote.id);
+  //   await user.save();
+  // } catch (error) {
+  //     next(error);
+  // }
 });
 
 module.exports = app;
