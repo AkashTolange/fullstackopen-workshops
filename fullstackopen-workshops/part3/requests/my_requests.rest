@@ -51,10 +51,12 @@ content-type: application/json
 ### for post 
 POST http://localhost:3005/api/notes
 content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhbSIsImlkIjoiNjg2YTZiNmEwZGU1ZjEwNmY1YzlhMmNiIiwiaWF0IjoxNzUxODc0MzYwfQ.BvJZFCZkVSqc8Xdc2hB5c3YW9N4QXiBYP9D74sG-fqM
 
-{   "content": "sample by Ram",
+{   
+    "content": "note creation using token ",
     "important": "false",
-    "userId": "686a6b6a0de5f106f5c9a2cb",
+    "userId": "686a6b6a0de5f106f5c9a2cb"
 } 
 
 ###
@@ -63,5 +65,16 @@ content-type: application/json
 
 {   
     "username": "Ram",
+    "password": "password123"
+}
+
+###
+POST  http://localhost:3005/api/users/
+content-type: application/json
+
+
+{   
+    "username": "Ram",
+    "name":"Ram Tolange",
     "password": "password123"
 }
