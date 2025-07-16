@@ -7,8 +7,11 @@ const getAll =() =>{
     return axios.get(baseUrl);
 }
 
-const create = (note) =>{
-    return axios.post(baseUrl, note).then((result) => result.data);
+const create = (note, token) =>{
+    const config = {
+        headers: { Authorization: `Bearer ${token}` },
+    }
+    return axios.post(baseUrl, note, config);
 }
 
 const update =(id, updatedNote) =>{
