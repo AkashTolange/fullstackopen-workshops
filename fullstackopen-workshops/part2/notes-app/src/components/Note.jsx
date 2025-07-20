@@ -3,7 +3,7 @@ const Note = (props) => {
   // return (
   return (
     // <li>  id is {note.id}:{note.content}</li>
-    <li>id is {note.id}:{note.content}{" "}
+    <li className="note">id is {note.id}:{note.content}{" "}
       <button onClick={updateNote}>
         change {note.important ? "true" : "false"}
       </button>
