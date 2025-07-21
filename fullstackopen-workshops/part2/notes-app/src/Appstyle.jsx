@@ -17,7 +17,7 @@ const Appstyle = () => {
   const [notes, setNotes] = useState([]);
 
   //filtering displayed ntoes example ok
-  const [newNote, setNewNote] = useState("");
+  // const [newNote, setNewNote] = useState("");
 
   //boolean state to
   const [showAll, setShowAll] = useState(false);
@@ -87,19 +87,19 @@ const Appstyle = () => {
   const notesToShow = notes.filter((note) => (showAll ? true : note.important));
   console.log("notes to show", notesToShow);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (newNote) => {
     // console.log(event);
-    event.preventDefault(); //prevent page refresh
-    let myNote = {
-      content: newNote,
-      id: notes.length + 1, // no need to create from now on
-      important: Math.random() > 0.5,
-    };
+    // event.preventDefault(); //prevent page refresh
+    // let myNote = {
+    //   content: newNote,
+    //   id: notes.length + 1, // no need to create from now on
+    //   important: Math.random() > 0.5,
+    // };
 
     noteFormRef.current.toggleVisibility();
     //00:: naya create garnw ko lage
     // let postPromise =axios.post("http://localhost:3001/notes", myNote);
-    let postPromise = noteService.create(myNote, user.token);
+    let postPromise = noteService.create(newNote, user.token);
     postPromise
       .then((createdNote) => {
         console.log("note created data", createdNote.data);
@@ -119,7 +119,7 @@ const Appstyle = () => {
             createdNote.data
           );
         }
-        setNewNote("");
+        // setNewNote("");
       })
       .catch((error) => {
         setNotification(
@@ -138,12 +138,13 @@ const Appstyle = () => {
     // alert("form has been submitted");
   };
 
-  const handleChange = (event) => {
-    // console.dir("typing", event.target);
-    // console.log("typing", event.target.value);
+  //yo pane chahenw ni utae NoteForm.jsx ma chalxa hae 
+  // const handleChange = (event) => {
+  //   // console.dir("typing", event.target);
+  //   // console.log("typing", event.target.value);
 
-    setNewNote(event.target.value);
-  };
+  //   setNewNote(event.target.value);
+  // };
 
   const handleShowAll = () => {
     setShowAll(!showAll);
@@ -247,9 +248,10 @@ const Appstyle = () => {
         return (
           <Togglable buttonLabel="New Note" ref={noteFormRef}>
             <NoteForm
+            //yaha bata patha ko xa hae 
               onSubmit={handleSubmit}
-              value={newNote}
-              handleChange={handleChange}
+              // value={newNote}
+              // handleChange={handleChange}
             />
           </Togglable>
         );
