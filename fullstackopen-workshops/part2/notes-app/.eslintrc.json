@@ -3,7 +3,8 @@
   "env": {
     "browser": true,
     "es2020": true,
-    "jest": true
+    "jest": true,
+    "cypress/globals": true
   },
   "extends": [
     "eslint:recommended",
@@ -21,7 +22,7 @@
       "version": "18.2"
     }
   },
-  "plugins": ["react-refresh", "react", "import", "jest"],
+  "plugins": ["react-refresh", "react", "import", "jest", "cypress"],
   "rules": {
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
