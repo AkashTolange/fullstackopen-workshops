@@ -78,3 +78,37 @@ content-type: application/json
     "name":"Ram Tolange",
     "password": "password123"
 }
+
+
+### creating another user for testing 
+###
+POST  http://localhost:3005/api/users/
+content-type: application/json
+
+
+{   
+    "username": "Shiva",
+    "name":"Shiva Tolange",
+    "password": "password1234"
+}
+
+###
+POST  http://localhost:3005/api/login/
+content-type: application/json
+
+{   
+    "username": "Shiva",
+    "password": "password1234"
+}
+
+###
+### for post 
+POST http://localhost:3005/api/notes
+content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNoaXZhIiwiaWQiOiI2ODdlMDNkODZhNGYwOTJjY2MxYjUzNjUiLCJpYXQiOjE3NTMwODkyNTcsImV4cCI6MTc1MzA4OTI4N30.mm-lM6r6UlJhlrQuBImFQIbmwZH-CqM4lN_948O56TA
+
+{   
+    "content": "note creation using token for test shiva",
+    "important": "false",
+    "userId": "687e03d86a4f092ccc1b5365"
+} 
