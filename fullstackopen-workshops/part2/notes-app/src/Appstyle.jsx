@@ -12,6 +12,9 @@ import Login from "./services/login";
 import NoteForm from "./components/NoteForm";
 
 
+//
+import "./Style.css"; //importing css file
+
 const Appstyle = () => {
   //index.js bata aako data ho hae
   const [notes, setNotes] = useState([]);
