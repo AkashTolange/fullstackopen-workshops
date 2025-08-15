@@ -1,38 +1,31 @@
-import { StrictMode } from 'react'
-// import './index.css'
-// import App from './App.jsx'
-// import React, { useState } from 'react';
+// import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createStore } from "redux";
-
-const noteReducer = (state = 100, action) => {
-  console.log("action is : ", action);
-  console.log("state is :",state);
-  if ( action.type === "ADD"){ 
-    const newState = state + 1;
-    return newState;
-  }
-  return state;
-}
-
+import noteReducer from './reducers/noteReducer';
+//reduxstore
 const store = createStore(noteReducer);
+//store.dispatch()
+store.dispatch({ 
+  type:'NEW_NOTE',
+  payload: { 
+    content: 'the app state is in redux store',
+    important: true,
+    id: 1
+  }
+})
 
 const App =() => { 
-  // const [counter, setCounter] = useState(0);
-
-  const addCounter =() => {
-    // setCounter((count) => count + 1);
-    store.dispatch({type: "ADD"})
-  }
-  const subtractCounter =() => { 
-    // setCounter((count) => count - 1);
-    store.dispatch({type: "SUBTRACT"})
-  }
-  const makeZero =() => { 
-    // setCounter(0);
-    store.dispatch({type: "ZERO"})
-  }
-  return (<h1>hello</h1>)
+  return( 
+    <div>
+      <ul>
+        {store.getState().map(note=> 
+          <li key={note.id}>
+            {note.content} <strong>{note.important ? 'important' : ''}</strong>
+          </li>
+        )}
+      </ul>
+    </div>
+  )  
 }
 
 const container = document.getElementById('root');
