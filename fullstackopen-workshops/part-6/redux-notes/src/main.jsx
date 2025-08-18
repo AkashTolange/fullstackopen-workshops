@@ -2,6 +2,8 @@
 import { createRoot } from "react-dom/client";
 import { createStore } from "redux";
 import noteReducer from "./reducers/noteReducer";
+
+import { createNote , toggleImportanceOf } from "./reducers/noteReducer";
 //reduxstore
 const store = createStore(noteReducer);
 // //store.dispatch()
@@ -16,14 +18,6 @@ const store = createStore(noteReducer);
 
 const App = () => {
 
-  const createNote =(newNote) => {
-    return {
-      type: "NEW_NOTE",
-      payload: newNote,
-    };
-  };
-
-
   const addNote = (e) => {
     e.preventDefault();
     // console.dir(e.target);
@@ -34,14 +28,10 @@ const App = () => {
       id: store.getState().length + 1,
     }
     store.dispatch(createNote(newNote));
+    e.target.myInput.value=""; // clear the input field after adding a note
   };
 
-  const toggleImportanceOf =(id) => { 
-    return  { 
-      type: "TOGGLE_IMPORTANCE",
-      payload: id,  
-    };
-  }
+ 
 
   const toggleImportant = (id) => {
     // e.preventDefault();
