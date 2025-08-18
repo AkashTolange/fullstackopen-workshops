@@ -7,9 +7,9 @@ const noteReducer = (state = [], action) => {
       return newState;
     }
     case "TOGGLE_IMPORTANCE": { 
-        let myNote = state.find((note) => note.id === action.payload.id);
-        let changedNote = {...myNote, important: !myNote.important };
-        changedNote.important = !changedNote.important;
+        let myNote = state.find((note) => note.id === action.payload);
+        let changedNote = { ...myNote, important: !myNote.important };
+        // changedNote.important = !changedNote.important;
         return state.map(note=> note.id===changedNote.id ? changedNote : note)
     }
     default: 
