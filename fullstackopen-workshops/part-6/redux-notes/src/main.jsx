@@ -3,79 +3,21 @@ import { createRoot } from "react-dom/client";
 import { createStore } from "redux";
 import noteReducer from "./reducers/noteReducer";
 
-import { createNote , toggleImportanceOf } from "./reducers/noteReducer";
+import App from "./App";
+import { Provider } from "react-redux"; 
+
 //reduxstore
 const store = createStore(noteReducer);
-// //store.dispatch()
-// store.dispatch({
-//   type:'NEW_NOTE',
-//   payload: {
-//     content: 'the app state is in redux store',
-//     important: true,
-//     id: 1
-//   }
-// })
-
-const App = () => {
-
-  const addNote = (e) => {
-    e.preventDefault();
-    // console.dir(e.target);
-    console.dir(e.target.myInput.value);
-    const newNote = { 
-      content: e.target.myInput.value,
-      important: true,
-      id: store.getState().length + 1,
-    }
-    store.dispatch(createNote(newNote));
-    e.target.myInput.value=""; // clear the input field after adding a note
-  };
-
- 
-
-  const toggleImportant = (id) => {
-    // e.preventDefault();
-    store.dispatch(toggleImportanceOf(id));
-  };
-
-  return (
-    <div>
-      <form onSubmit={addNote}>
-        <input name="myInput" />
-        <button type="submit">Add note</button>
-      </form>
-      <ul>
-        {store.getState().map((note) => (
-          <li key={note.id} onClick={() => {toggleImportant(note.id)}}>
-            {note.content}{" "}
-            <strong >
-              {note.important ? "important" : ""}
-            </strong>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
 
 const container = document.getElementById("root");
 const root = createRoot(container);
-root.render(<App />);
-store.subscribe(() => {
-  root.render(<App />);
-});
+root.render(
+  // that means that the store is available to all components in the app
+  // so we can use the store in any component
+  <Provider store={store}>
+    <App/>
+  </Provider>
+);
+//not a good practice to subscribe like this, but for simplicity in this example
 
-store.dispatch({
-  type: "NEW_NOTE",
-  payload: {
-    content: "state changes are reflected in the UI",
-    important: false,
-    id: 1,
-  },
-});
 
-// createRoot(document.getElementById('root')).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
