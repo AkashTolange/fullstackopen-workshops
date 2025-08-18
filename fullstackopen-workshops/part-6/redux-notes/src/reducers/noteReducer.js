@@ -19,4 +19,22 @@ const noteReducer = (state = [], action) => {
   }
 };
 
+//moved the function from main.jsx to here
+  export const createNote =(newNote) => {
+    return {
+      type: "NEW_NOTE",
+      payload: newNote,
+    };
+  };
+
+  export const toggleImportanceOf =(id) => { 
+    return  { 
+      type: "TOGGLE_IMPORTANCE",
+      payload: id,  
+    };
+  }
+
+
+
+
 export default noteReducer;
