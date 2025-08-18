@@ -1,42 +1,23 @@
 // import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot } from "react-dom/client";
 import { createStore } from "redux";
-import noteReducer from './reducers/noteReducer';
+import noteReducer from "./reducers/noteReducer";
+
+import App from "./App";
+import { Provider } from "react-redux"; 
+
 //reduxstore
 const store = createStore(noteReducer);
-//store.dispatch()
-store.dispatch({ 
-  type:'NEW_NOTE',
-  payload: { 
-    content: 'the app state is in redux store',
-    important: true,
-    id: 1
-  }
-})
 
-const App =() => { 
-  return( 
-    <div>
-      <ul>
-        {store.getState().map(note=> 
-          <li key={note.id}>
-            {note.content} <strong>{note.important ? 'important' : ''}</strong>
-          </li>
-        )}
-      </ul>
-    </div>
-  )  
-}
-
-const container = document.getElementById('root');
+const container = document.getElementById("root");
 const root = createRoot(container);
-root.render(<App />);
-store.subscribe(() => { 
-    root.render(<App/>)
-});
+root.render(
+  // that means that the store is available to all components in the app
+  // so we can use the store in any component
+  <Provider store={store}>
+    <App/>
+  </Provider>
+);
+//not a good practice to subscribe like this, but for simplicity in this example
 
-// createRoot(document.getElementById('root')).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
+
