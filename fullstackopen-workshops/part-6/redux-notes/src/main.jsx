@@ -1,13 +1,25 @@
 // import { StrictMode } from 'react'
 import { createRoot } from "react-dom/client";
-import { createStore } from "redux";
+//yo redux mw vako ho hae createStore and combineReducers
+import { combineReducers, createStore } from "redux";
 import noteReducer from "./reducers/noteReducer";
+import filterReducer from "./reducers/filterReducer";
+
+//let's learn if there are two reducer then how to combine them 
+//combineReducer 
 
 import App from "./App";
 import { Provider } from "react-redux"; 
 
+
+const reducer = combineReducers({ 
+  notes: noteReducer,
+  filter: filterReducer,
+})
+
+
 //reduxstore
-const store = createStore(noteReducer);
+const store = createStore(reducer);
 
 const container = document.getElementById("root");
 const root = createRoot(container);
