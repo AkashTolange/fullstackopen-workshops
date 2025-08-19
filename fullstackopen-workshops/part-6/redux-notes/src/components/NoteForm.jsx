@@ -5,7 +5,7 @@ const NoteForm = () => {
 
   //state rw useState and this is the advantage of using redux
   const dispatch = useDispatch();
-  const notes = useSelector((state) => state);
+  const notes = useSelector((state) => state.notes);
 
   const addNote = (e) => {
     e.preventDefault();
