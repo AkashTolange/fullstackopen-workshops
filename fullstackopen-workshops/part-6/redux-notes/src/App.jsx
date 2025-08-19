@@ -1,17 +1,28 @@
 import React, { useState } from 'react'
 // import { useSelector, useDispatch } from 'react-redux';
 // import { createNote, toggleImportanceOf } from "./reducers/noteReducer";
+import { useSelector, useDispatch } from 'react-redux';
 import NoteForm from './components/NoteForm';
 import Notes from './components/Notes';
+import { filterChange } from './reducers/filterReducer';
+
+
 
 
 const App = () => {
 
-  const [filter, setFilter] = useState("ALL");
+  // const [filter, setFilter] = useState("ALL");
+  const dispatch = useDispatch();
+
+  const filter = useSelector((state) => { 
+    return state.filter;
+  })
 
   const filterSelected =(filter) => { 
     console.log("clicked radio is", filter);
-    setFilter(filter);
+    // setFilter(filter);
+    // use of dispatch ok 
+    dispatch(filterChange(filter))
   }
 
 
@@ -26,6 +37,7 @@ const App = () => {
           type='radio'
           name='filter'
           onChange={() => filterSelected("ALL")}
+          checked={filter === "ALL"}
         />
         important
         <input 
