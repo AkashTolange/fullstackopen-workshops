@@ -3,9 +3,30 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleImportanceOf } from "../reducers/noteReducer";
 
 
-const Notes = () => {
+const Notes = ({filter}) => {
     const dispatch = useDispatch();
-    const notes = useSelector((state) => state)
+
+    //can implement these below concept using only ternary operator only , which will be easy enough too
+    const notes = useSelector((state) => { 
+      if (filter === 'ALL') { 
+        return state;
+      }
+
+      if ( filter === 'IMPORTANT') { 
+        return state.filter((note) => { 
+          if(note.important === true){ 
+            return true;
+          }
+        });
+      }
+      if ( filter === 'NOTIMPORTANT') { 
+        return state.filter((note) => { 
+          if(note.important === false){ 
+            return true;
+          }
+        });
+      }
+    })
 
     const toggleImportant = (id) => {
     // e.preventDefault();
