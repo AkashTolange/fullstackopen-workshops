@@ -1,29 +1,27 @@
-import React, { useState } from 'react'
+// import React, { useState } from 'react'
 // import { useSelector, useDispatch } from 'react-redux';
 // import { createNote, toggleImportanceOf } from "./reducers/noteReducer";
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import NoteForm from './components/NoteForm';
 import Notes from './components/Notes';
-import { filterChange } from './reducers/filterReducer';
-
-
-
+// import { filterChange } from './reducers/filterReducer';
+import VisibilityFilter from './components/VisibilityFilter';
 
 const App = () => {
 
   // const [filter, setFilter] = useState("ALL");
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const filter = useSelector((state) => { 
-    return state.filter;
-  })
+  // const filter = useSelector((state) => { 
+    // return state.filter;
+  // })
 
-  const filterSelected =(filter) => { 
-    console.log("clicked radio is", filter);
-    // setFilter(filter);
-    // use of dispatch ok 
-    dispatch(filterChange(filter))
-  }
+  // const filterSelected =(filter) => { 
+  //   console.log("clicked radio is", filter);
+  //   // setFilter(filter);
+  //   // use of dispatch ok 
+  //   dispatch(filterChange(filter))
+  // }
 
 
   return (
@@ -31,7 +29,7 @@ const App = () => {
       {/* copy paste from fullstackopen */}
       {/* div vitra teen ota radio button rakhe ko xu */}
       {/* what's the difference between radio button and check box  */}
-      <div>
+      {/* <div>
         all
         <input 
           type='radio'
@@ -54,9 +52,10 @@ const App = () => {
         
         />
 
-      </div>
+      </div> */}
+      <VisibilityFilter/>
       <NoteForm />
-      <Notes filter={filter}/>
+      <Notes/>
     </div>
   );
 };
