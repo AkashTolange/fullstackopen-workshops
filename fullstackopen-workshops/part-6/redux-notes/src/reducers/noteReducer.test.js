@@ -5,9 +5,10 @@ describe("noteReducer", () => {
     test("returns new state with action NEW_NOTE", () => { 
         const state =[];
         const action ={ 
-            type: "NEW_NOTE",
+            //yaha key name ko value rw and name of the function hunu parxa 
+            type: "notes/createNote",
             payload: { 
-                content: "the app state is in redux store",
+                content: 'the app state is in redux store',
                 important: true,
                 id: 1,
             },
@@ -35,10 +36,11 @@ describe("noteReducer", () => {
             }]
 
             const action = {
-                type: 'TOGGLE_IMPORTANCE',
-                payload: { 
-                    id:2
-                },
+                type: 'notes/toggleImportanceOf',
+                // payload: { 
+                //     id:2
+                // }, //direct id pass garam nw hae 
+                payload: 2,
             }
             deepFreeze(state);
             const newState = noteReducer(state, action);
