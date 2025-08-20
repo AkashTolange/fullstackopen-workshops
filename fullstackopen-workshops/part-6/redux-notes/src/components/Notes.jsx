@@ -22,7 +22,7 @@ const Notes = () => {
           }
         });
       }
-      if ( filter === 'NOTIMPORTANT') { 
+      if ( filter === 'NONIMPORTANT') { 
         return state.notes.filter((note) => { 
           if(note.important === false){ 
             return true;
@@ -37,7 +37,8 @@ const Notes = () => {
   };
   return (
     <ul>
-        {notes.map((note) => (
+      
+        {(notes || []).map((note) => (
           <li key={note.id} onClick={() => {toggleImportant(note.id)}}>
             {note.content}{" "}
             <strong >
