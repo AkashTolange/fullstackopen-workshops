@@ -1,3 +1,6 @@
+import { createSlice } from '@reduxjs/toolkit'
+
+
 const initialState = [ 
   { 
     content: 'reducer defines how redux store works',
@@ -11,43 +14,63 @@ const initialState = [
   },
 ]
 
-const noteReducer = (state = initialState, action) => {
-  console.log("action is : ", action);
-  console.log("state is :", state);
-  switch (action.type) {
-    case "NEW_NOTE": {
-      const  newState =state.concat(action.payload);
-      return newState;
-    }
-    case "TOGGLE_IMPORTANCE": { 
+const noteReducer = createSlice({ 
+    name: "notes",
+    initialState,
+    reducers: { 
+      createNote(state, action) { 
+          const  newState =state.concat(action.payload);
+          return newState;
+      },
+      toggleImportanceOf(state, action){ 
         let myNote = state.find((note) => note.id === action.payload);
         let changedNote = { ...myNote, important: !myNote.important };
         // changedNote.important = !changedNote.important;
         return state.map(note=> note.id===changedNote.id ? changedNote : note)
+      }
     }
-    default: 
-      return state;
+})
+
+
+//yo sabase combine huncha hae 
+// const noteReducer = (state = initialState, action) => {
+//   console.log("action is : ", action);
+//   console.log("state is :", state);
+//   switch (action.type) {
+//     case "NEW_NOTE": {
+//       const  newState =state.concat(action.payload);
+//       return newState;
+//     }
+//     case "TOGGLE_IMPORTANCE": { 
+//         let myNote = state.find((note) => note.id === action.payload);
+//         let changedNote = { ...myNote, important: !myNote.important };
+//         // changedNote.important = !changedNote.important;
+//         return state.map(note=> note.id===changedNote.id ? changedNote : note)
+//     }
+//     default: 
+//       return state;
     
     
-  }
-};
+//   }
+// };
 
-//moved the function from main.jsx to here
-  export const createNote =(newNote) => {
-    return {
-      type: "NEW_NOTE",
-      payload: newNote,
-    };
-  };
+// //moved the function from main.jsx to here
+//   export const createNote =(newNote) => {
+//     return {
+//       type: "NEW_NOTE",
+//       payload: newNote,
+//     };
+//   };
 
-  export const toggleImportanceOf =(id) => { 
-    return  { 
-      type: "TOGGLE_IMPORTANCE",
-      payload: id,  
-    };
-  }
+//   export const toggleImportanceOf =(id) => { 
+//     return  { 
+//       type: "TOGGLE_IMPORTANCE",
+//       payload: id,  
+//     };
+//   }
+
+const { createNote, toggleImportanceOf } = noteReducer.actions;
+export { createNote, toggleImportanceOf };
 
 
-
-
-export default noteReducer;
+export default noteReducer.reducer;
