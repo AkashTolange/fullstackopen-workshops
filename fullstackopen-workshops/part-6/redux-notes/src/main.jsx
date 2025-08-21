@@ -1,27 +1,17 @@
 // import { StrictMode } from 'react'
 import { createRoot } from "react-dom/client";
-//yo redux mw vako ho hae createStore and combineReducers
-// import { combineReducers, createStore } from "redux";
 import noteReducer from "./reducers/noteReducer";
 import filterReducer from "./reducers/filterReducer";
 
 import { configureStore } from "@reduxjs/toolkit";
 
-//let's learn if there are two reducer then how to combine them 
-//combineReducer 
 
 import App from "./App";
 import { Provider } from "react-redux"; 
 
 
-// const reducer = combineReducers({ 
-//   notes: noteReducer,
-//   filter: filterReducer,
-// })
 
 
-//reduxstore
-// const store = createStore(reducer);
 //using configureStore we do not need of createStore and combineReducers too 
 const store = configureStore({ 
   reducer: { 
