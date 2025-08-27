@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import noteServices from '../services/notes';
 
 const noteReducer = createSlice({ 
     name: "notes",
@@ -18,9 +19,19 @@ const noteReducer = createSlice({
 })
 
 
-
 const { createNote, toggleImportanceOf } = noteReducer.actions;
-export { createNote, toggleImportanceOf };
+//
+
+const makeNote =(newNote) => {
+  return async (dispatch) => {            //backend mw naya data create garyo ane yo (dispatch) mw disptach aauxa ,,,,, redux store mw ni dispatch gardyo 
+    const myNote = await noteServices.createNew(newNote);
+    dispatch(createNote(myNote));
+  }
+ }
+
+
+
+export { createNote, toggleImportanceOf, makeNote};
 
 
 export default noteReducer.reducer;
