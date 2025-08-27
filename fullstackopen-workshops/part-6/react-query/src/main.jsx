@@ -1,37 +1,24 @@
-
-// import { StrictMode } from 'react'
 import { createRoot } from "react-dom/client";
-// import noteReducer from "./reducers/noteReducer";
-// import filterReducer from "./reducers/filterReducer";
+// import App from "./App";
 
-// import { configureStore } from "@reduxjs/toolkit";
-//they are in store.js
+import App from "./ReactQueryApp.jsx";
+// import { Provider } from "react-redux"; 
+// import { store } from "./store.js";
 
-
-import App from "./App";
-import { Provider } from "react-redux"; 
-import { store } from "../store";
-
-
-
-
-//using configureStore we do not need of createStore and combineReducers too 
-// const store = configureStore({ 
-//   reducer: { 
-//     notes: noteReducer,
-//     filter: filterReducer,
-//   }
-// })
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const container = document.getElementById("root");
 const root = createRoot(container);
+
+const queryClient = new QueryClient()
+
 root.render(
-  // that means that the store is available to all components in the app
-  // so we can use the store in any component
-  <Provider store={store}>
+  //last time redux le store pathau nw ko lage Provider store gare ka themm
+  //so now query pathau nw ko lage 
+  //yo khale ko comp props.children lene comp ho
+  <QueryClientProvider client={queryClient}>
     <App/>
-  </Provider>
+  </QueryClientProvider>
 );
-//not a good practice to subscribe like this, but for simplicity in this example
 
 

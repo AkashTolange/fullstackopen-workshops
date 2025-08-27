@@ -1,7 +1,3 @@
-// import React, { useState } from 'react'
-// import { useSelector, useDispatch } from 'react-redux';
-// import { createNote, toggleImportanceOf } from "./reducers/noteReducer";
-// import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import NoteForm from './components/NoteForm';
 import Notes from './components/Notes';
