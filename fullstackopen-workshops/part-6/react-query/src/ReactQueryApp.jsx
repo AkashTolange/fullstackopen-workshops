@@ -17,13 +17,17 @@ const App =() =>  {
   const result = useQuery({ 
     queryKey: ["notes"],
     queryFn: getNotes,
+    // retry:1
+    // refetchOnWindowFocus: false
   });
   // const newNoteMutation = useMutation({ mutationFn: createNote })
   //yo post ko lage
   const newNoteMutation = useMutation({ 
     mutationFn: createNote,
-    onSuccess: () => { 
-      queryClient.invalidateQueries({ queryKey: ["notes"]});
+    onSuccess: (newNote) => { 
+      const oldnotes = queryClient.getQueryData(["notes"]);
+      queryClient.setQueryData(["notes"], oldnotes.concat(newNote));
+      // queryClient.invalidateQueries({ queryKey: ["notes"]});
     },
   })
 
@@ -60,6 +64,8 @@ const App =() =>  {
   if(result.isLoading) { 
     return <div>loading data...</div>;
   }
+
+  
 
   
   const notes = result.data || [];

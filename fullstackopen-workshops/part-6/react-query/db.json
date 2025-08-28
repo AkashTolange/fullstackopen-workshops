@@ -11,29 +11,24 @@
       "id": "2"
     },
     {
-      "id": "28fc",
-      "content": "new note",
-      "important": false
-    },
-    {
-      "id": "2876",
-      "content": "add new note 2",
-      "important": false
-    },
-    {
-      "id": "ed3c",
-      "content": "hello hello",
-      "important": false
-    },
-    {
-      "id": "ab8e",
-      "content": "helloooooo",
+      "id": "be5b",
+      "content": "hello",
       "important": true
     },
     {
-      "id": "3c82",
-      "content": "add new note 2",
-      "important": false
+      "id": "24b1",
+      "content": "kkkk",
+      "important": true
+    },
+    {
+      "id": "9f76",
+      "content": "llll",
+      "important": true
+    },
+    {
+      "id": "87f1",
+      "content": "uuuu",
+      "important": true
     }
   ]
 }
