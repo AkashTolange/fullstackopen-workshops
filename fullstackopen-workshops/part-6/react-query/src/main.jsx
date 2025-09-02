@@ -1,7 +1,10 @@
 import { createRoot } from "react-dom/client";
 // import App from "./App";
 
-import App from "./ReactQueryApp.jsx";
+// import App from "./ReactQueryApp.jsx";
+//at end for CounterApp
+import App from "./CounterApp.jsx"
+// import App from "./ReactQueryApp.jsx";
 // import { Provider } from "react-redux"; 
 // import { store } from "./store.js";
 
