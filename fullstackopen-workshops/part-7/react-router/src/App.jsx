@@ -72,6 +72,7 @@ const App = () => {
           users
         </Link>
         {user ? (
+          
           <em>{user} logged in </em>
         ) : (
           <Link style={padding} to="/login">

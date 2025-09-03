@@ -13,8 +13,9 @@ const Login = ({setUser}) => {
 
     return ( 
         <form onSubmit={handleSubmit}>
-            <input type="text" name="username"/>
-            <button>submit</button>
+            <strong>username:</strong> <input type="text" name="username"/><br/>
+            <strong>password:</strong> <input type="password" name="password"/><br/>
+            <button>Login</button>
         </form>
     )
 }
