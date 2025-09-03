@@ -8,7 +8,7 @@ const Login = ({setUser}) => {
         event.preventDefault();
         console.log(event.target.username.value)
         setUser(event.target.username.value)
-        navigate('/')
+        navigate('/users');
     }
 
     return ( 
