@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-
+//use of bootstrap
+import {Form, Button} from "react-bootstrap"
 const Login = ({setUser}) => { 
 
     const navigate = useNavigate();
@@ -12,11 +13,20 @@ const Login = ({setUser}) => {
     }
 
     return ( 
-        <form onSubmit={handleSubmit}>
-            <strong>username:</strong> <input type="text" name="username"/><br/>
-            <strong>password:</strong> <input type="password" name="password"/><br/>
-            <button>Login</button>
-        </form>
+        <>
+        <h2>Login</h2>
+        <Form onSubmit={handleSubmit}>
+            <Form.Group>
+                <Form.Label>username:</Form.Label> <Form.Control type="text" name="username"/><br/>
+                <Form.Label>password:</Form.Label> <Form.Control type="password" name="password"/><br/>
+                {/* <Button>Login</Button> */}
+                <Button variant="primary" type="submit">
+                    submit
+                </Button>
+            </Form.Group>
+        </Form>
+
+        </>
     )
 }
 

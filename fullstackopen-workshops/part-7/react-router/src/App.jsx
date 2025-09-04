@@ -4,6 +4,9 @@ import Note from "./Note";
 import { useState } from "react";
 import Login from "./Login";
 
+//use bootstrap
+import {Alert, Nav, Navbar} from "react-bootstrap"
+
 const notes = [
   {
     content: "the app state is in redux store",
@@ -59,27 +62,33 @@ const App = () => {
     padding: 5,
   };
 
+  const footerStyle ={ color: "blue", fontSize: "20px"}
+
   return (
-    <>
-      <div>
-        <Link style={padding} to="/">
-          home
-        </Link>
-        <Link style={padding} to="/notes">
-          notes
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        {user ? (
-          
-          <em>{user} logged in </em>
-        ) : (
-          <Link style={padding} to="/login">
-            Login
-          </Link>
-        )}
-      </div>
+    <div className="container">
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+  <Navbar.Collapse id="responsive-navbar-nav">
+    <Nav className="me-auto">
+      <Nav.Link href="#" as="span">
+        <Link style={padding} to="/">home</Link>
+      </Nav.Link>
+      <Nav.Link href="#" as="span">
+        <Link style={padding} to="/notes">notes</Link>
+      </Nav.Link>
+      <Nav.Link href="#" as="span">
+        <Link style={padding} to="/users">users</Link>
+      </Nav.Link>
+      <Nav.Link href="#" as="span">
+        {user
+          // ? <em style={padding}>{user} logged in</em>
+          ? <Alert variant="primary">{user} logged in</Alert>
+          : <Link style={padding} to="/login">login</Link>
+        }
+      </Nav.Link>
+    </Nav>
+  </Navbar.Collapse>
+</Navbar>
 
       <Routes>
         <Route path="/notes" element={<Notes notes={notes} />} />
@@ -96,9 +105,9 @@ const App = () => {
       </Routes>
 
       <div>
-        <i>Note app, Department of Computer Science 2024</i>
+        <i style={footerStyle}>Note app, Department of Computer Science 2024</i>
       </div>
-    </>
+    </div>
   );
 };
 
