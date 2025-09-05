@@ -1,11 +1,23 @@
-import { BrowserRouter as Router, Routes, Route, Link, Navigate, useMatch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useMatch,
+} from "react-router-dom";
 import Notes from "./Notes";
 import Note from "./Note";
 import { useState } from "react";
 import Login from "./Login";
+//use material ui
+// import {Container} from "@mui/material"
 
 //use bootstrap
-import {Alert, Nav, Navbar} from "react-bootstrap"
+// import { ALert } from "react-bootstrap";
+// import { Nav, Navbar } from "react-bootstrap";
+import { Container, Alert, Toolbar } from "@mui/material";
+import {Button, AppBar, IconButton } from "@mui/material"
 
 const notes = [
   {
@@ -62,33 +74,32 @@ const App = () => {
     padding: 5,
   };
 
-  const footerStyle ={ color: "blue", fontSize: "20px"}
+  const footerStyle = { color: "blue", fontSize: "20px" };
 
   return (
-    <div className="container">
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-  <Navbar.Collapse id="responsive-navbar-nav">
-    <Nav className="me-auto">
-      <Nav.Link href="#" as="span">
-        <Link style={padding} to="/">home</Link>
-      </Nav.Link>
-      <Nav.Link href="#" as="span">
-        <Link style={padding} to="/notes">notes</Link>
-      </Nav.Link>
-      <Nav.Link href="#" as="span">
-        <Link style={padding} to="/users">users</Link>
-      </Nav.Link>
-      <Nav.Link href="#" as="span">
-        {user
-          // ? <em style={padding}>{user} logged in</em>
-          ? <Alert variant="primary">{user} logged in</Alert>
-          : <Link style={padding} to="/login">login</Link>
-        }
-      </Nav.Link>
-    </Nav>
-  </Navbar.Collapse>
-</Navbar>
+    //use material ui, for component but material ui & react-bootstrap ..each component has to be imported separately...
+    //container has to be imported separately
+    <Container>
+      <AppBar position="static">
+  <Toolbar>
+    
+    <Button color="inherit" component={Link} to="/">
+      home
+    </Button>
+    <Button color="inherit" component={Link} to="/notes">
+      notes
+    </Button>
+    <Button color="inherit" component={Link} to="/users">
+      users
+    </Button>  
+    {user
+      ? <em>{user} logged in </em>
+      : <Button color="inherit" component={Link} to="/login">
+        login
+      </Button>
+    }               
+  </Toolbar>
+</AppBar>
 
       <Routes>
         <Route path="/notes" element={<Notes notes={notes} />} />
@@ -96,10 +107,10 @@ const App = () => {
         <Route path="/notes/:id" element={<Note note={note} />} />
 
         {/* <Route path="/users" element={<Users />} /> */}
-        <Route path="/login" element={<Login setUser={setUser}/>} />
-        <Route 
-          path="/users"          //example navigating to a url
-          element={user ? <Users/> : <Navigate replace to="/login"/>}
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route
+          path="/users" //example navigating to a url
+          element={user ? <Users /> : <Navigate replace to="/login" />}
         />
         <Route path="/" element={<Home />} />
       </Routes>
@@ -107,7 +118,7 @@ const App = () => {
       <div>
         <i style={footerStyle}>Note app, Department of Computer Science 2024</i>
       </div>
-    </div>
+    </Container>
   );
 };
 
