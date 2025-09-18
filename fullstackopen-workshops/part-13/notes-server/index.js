@@ -58,6 +58,12 @@ Note.init(
 );
 
 
+//what does it do?? database mw connect gare rw  Note model ko , notes vanne table xa ki xaina hernw janxa
+//mathe ko jasto schema banae dinxa
+Note.sync();
+
+
+
 // GET all notes
 app.get("/api/notes", async (req, res) => {
   try {
@@ -79,6 +85,34 @@ app.post("/api/notes", async(req, res) => {
   console.log(req.body);
   const note = await Note.create(req.body);
   res.json(note);
+})
+
+
+//to get id
+app.get("/api/notes/:id", async(req, res) => { 
+  const note = await Note.findByPk(req.params.id);
+  if ( note ) {
+    res.json(note);
+  } else { 
+    res.status(404).send("no data found");
+  }
+});
+
+//put 
+app.put('/api/notes/:id', async(req, res) => { 
+  const note = await Note.findByPk(req.params.id);
+  // console.log(note);
+  // console.log(note.toJSON());
+  // console.log(JSON.stringify(note))
+  console.log(JSON.stringify(note, null, 2));
+  
+  if ( note ) { 
+    note.important = req.body.important
+    await note.save()
+    res.json(note)
+  } else { 
+    res.status(404).end()
+  }
 })
 
 // Start server
