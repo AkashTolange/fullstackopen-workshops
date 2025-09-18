@@ -75,11 +75,11 @@ app.get("/api/notes", async (req, res) => {
   }
 });
 
-// app.post("/api/notes", async(req, res) => { 
-//   console.log(req.body);
-//   const note = await Note.create(req.body);
-//   res.json(note);
-// })
+app.post("/api/notes", async(req, res) => { 
+  console.log(req.body);
+  const note = await Note.create(req.body);
+  res.json(note);
+})
 
 // Start server
 app.listen(port, () => {
