@@ -10,6 +10,7 @@ const noteFinder = async(req, res, next) => {
 
 //importing
 const { Note, User } = require("../models/index")
+const { Op } = require("sequelize")
 
 
 //this is also middleware vaye hae
@@ -38,12 +39,35 @@ app.get("/", async (req, res) => {
 
     //schema banayo ane chalayo matra
     // const notes = await Note.findAll();  want to show userId , name , blah blah ...
+    // console.log("query param important is ", req.query.important);
+    // console.log("query param class is ", req.query.class);
+    let important ={ 
+      [Op.in] : [true, false]
+    }
+    const where ={}
+    if (req.query.search) { 
+      where.content = {
+        [Op.substring]: req.query.search
+      }
+    }
+
+    if ( req.query.important) { 
+      important = req.query.important === "true"
+    }
     const notes = await Note.findAll({ 
       attributes: { exclude: ['userId']},
       include: { 
         model: User, //need to import
         attributes: ['name', "username"]
-      }
+      }, 
+      where,
+      //tala ko clean up gare ko 
+      // where: {                            //two ways to pass value api call , params and query
+      //   important,
+      //   content: { 
+      //     [Op.substring] : req.query.search ? req.query.search : "",
+      //   }
+      // }
     });
 
     res.json(notes);
