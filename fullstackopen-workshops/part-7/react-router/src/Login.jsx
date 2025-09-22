@@ -3,7 +3,12 @@ import { useNavigate } from "react-router-dom";
 // import {Form, Button} from "react-bootstrap"
 
 //materail ui 
-import { TextField, Button } from "@mui/material";
+// import { TextField } from "@mui/material";
+// import { Button } from "@mui/material";
+
+//styled components
+import { Button, Input} from "./components/Button"
+
 const Login = ({setUser}) => { 
 
     const navigate = useNavigate();
@@ -20,13 +25,13 @@ const Login = ({setUser}) => {
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
             <div>
-                <TextField label="username"/>
+                <Input label="username"/>
             </div>
             <div>
-                <TextField label="password" type="password" />
+                <Input label="password" type="password" />
             </div>
             <div>
-                <Button variant="contained" color="primary" type="submit">
+                <Button  type="submit">
                     login
                 </Button>
             </div>

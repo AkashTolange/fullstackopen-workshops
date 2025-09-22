@@ -36,6 +36,6 @@ Note.init(
 
 //what does it do?? database mw connect gare rw  Note model ko , notes vanne table xa ki xaina hernw janxa
 //mathe ko jasto schema banae dinxa
-Note.sync();
+// Note.sync();
 
 module.exports = Note;

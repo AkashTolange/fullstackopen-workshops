@@ -1,7 +1,6 @@
-require("dotenv").config();
-// const { Pool } = require("pg");
-const express = require("express");
 const app = require("express").Router()
+const jwt = require("jsonwebtoken")
+const { SECRET } = require("../utils/config")
 
 
 const noteFinder = async(req, res, next) => {
@@ -11,6 +10,22 @@ const noteFinder = async(req, res, next) => {
 
 //importing
 const { Note } = require("../models/index")
+
+
+//this is also middleware vaye hae
+const tokenExtractor = (req, res, next) => { 
+  const authorization = req.get("authorization")
+  if(authorization && authorization.toLowerCase().startsWith('bearer')) {
+    try { 
+      req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
+    } catch(err){ 
+      return res.status(401).json({ error: 'token invalid'})
+    }
+  } else { 
+    return res.status(401).json({ error: 'token missing'})
+  }
+  next();
+}
 
 // GET all notes
 app.get("/", async (req, res) => {
@@ -29,8 +44,13 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.post("/", async(req, res) => { 
+app.post("/", tokenExtractor, async(req, res) => { 
   console.log(req.body);
+  //aba notes rw user pane connected vaye pache , content rw imp tw aayo tara user_id kaha bata aauxa ni 
+  //aba hamle api call garda token mw huncha user id , rw pathau dw , token mw user id lae decrypt garnu parxa 
+  //token lae padhe decrypt garne
+  //little confusing but it's easy 
+  req.body.userId = req.decodedToken.id        //camel case mw leknu parxa for underscore ko lage
   const note = await Note.create(req.body);
   res.json(note);
 })

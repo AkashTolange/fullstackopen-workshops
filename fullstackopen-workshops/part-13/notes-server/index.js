@@ -4,6 +4,10 @@ const express = require("express");
 const app = express();
 
 const notesRouter = require("./controllers/notes")
+//for login
+const loginRouter = require("./controllers/login")
+//for user
+const userRouter = require("./controllers/users")
 const {PORT} = require("./utils/config")
 const {connectToDatabase} = require('./utils/db')
 // PostgreSQL connection pool
@@ -11,8 +15,10 @@ const {connectToDatabase} = require('./utils/db')
 //   connectionString: process.env.DATABASE_URL,
 // });
 
-
+app.use(express.json());
 app.use("/api/notes", notesRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/users", userRouter);
 
 
 const start = async() => { 
