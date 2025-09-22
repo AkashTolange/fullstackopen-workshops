@@ -13,6 +13,7 @@ const { Note } = require("../models/index")
 
 
 //this is also middleware vaye hae
+//using tokenExtractor to decode the userId from token 
 const tokenExtractor = (req, res, next) => { 
   const authorization = req.get("authorization")
   if(authorization && authorization.toLowerCase().startsWith('bearer')) {
