@@ -4,6 +4,7 @@ const router = require('express').Router()
 const { SECRET } = require('../utils/config')
 const User = require('../models/user')
 
+//created login routes
 router.post('/', async (request, response) => {
   const body = request.body
 
