@@ -44,6 +44,7 @@ app.get("/", async (req, res) => {
     let important ={ 
       [Op.in] : [true, false]
     }
+    //look included searching text inside content field and exclude where clause when not required
     const where ={}
     if (req.query.search) { 
       where.content = {
