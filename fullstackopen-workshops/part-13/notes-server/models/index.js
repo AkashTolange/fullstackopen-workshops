@@ -6,7 +6,9 @@ const  User  = require("./user")
 
 User.hasMany(Note)                                 //Note table ko record chae belongs to user vane ko 
 Note.belongsTo(User)                               //rw maile yade kunae new record thape vane it belongs to User too
-Note.sync({ alter: true})
-User.sync({ alter: true})
+
+//migration bata garne ho vane , no need of sync
+// Note.sync({ alter: true})
+// User.sync({ alter: true})
 
 module.exports = { Note, User}
