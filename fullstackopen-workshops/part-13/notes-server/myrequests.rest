@@ -1,10 +1,10 @@
-
-
+###
 POST http://localhost:3001/api/notes/
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFrYXNodG9sYW5nZSIsImlkIjoxLCJpYXQiOjE3NTg1MjA3NzF9.VcDK4qVSDsRxCfiApzQj69Cp6E9iaRMEM8bJtNh_JYo
 
 { 
-    "content": "Testing post three",
+    "content": "Testing post with authorization token ",
     "important": false
 }
 
@@ -16,4 +16,22 @@ content-type: application/json
 
 { 
     "important": true
+}
+
+###
+POST http://localhost:3001/api/users
+content-type: application/json
+
+{
+    "username": "akashtolange",
+    "name": "akash"
+}
+
+###
+POST http://localhost:3001/api/login
+content-type: application/json
+
+{ 
+    "username": "akashtolange",
+    "password": "secret"
 }
