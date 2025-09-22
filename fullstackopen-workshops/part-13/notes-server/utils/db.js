@@ -1,7 +1,9 @@
 
 const { Sequelize } = require("sequelize");
 
-const {DB_CONNECTION} = require('./config')
+const {DB_CONNECTION} = require('./config');
+
+const { Umzug, SequelizeStorage } = require('umzug');
 
 const sequelize = new Sequelize(DB_CONNECTION, { 
   dialectOptions: { 
@@ -12,9 +14,31 @@ const sequelize = new Sequelize(DB_CONNECTION, {
   },
 });
 
+
+// what the hell is this ?
+const runMigrations = async() => {
+  const migrator = new Umzug({ 
+    migrations: {         //migrations vitra vako file lae sabae tana hae 
+      glob: 'migrations/*.js',
+
+    },
+    storage: new SequelizeStorage({ sequelize, tableName: 'migrations'}),
+    context: sequelize.getQueryInterface(),
+    logger: console,
+  })
+
+  const migrations = await migrator.up()
+  console.log("Migrations up to date", { 
+    files: migrations.map((mig) => mig.name),
+  })
+}
+
+
+
 const connectToDatabase = async () => { 
     try{ 
         await sequelize.authenticate();
+        await runMigrations();
         console.log("connected to the database");
 
     } catch (err) { 
