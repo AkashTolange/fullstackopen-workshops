@@ -9,7 +9,7 @@ const noteFinder = async(req, res, next) => {
 }
 
 //importing
-const { Note } = require("../models/index")
+const { Note, User } = require("../models/index")
 
 
 //this is also middleware vaye hae
@@ -37,7 +37,15 @@ app.get("/", async (req, res) => {
     // res.json(result);
 
     //schema banayo ane chalayo matra
-    const notes = await Note.findAll();
+    // const notes = await Note.findAll();  want to show userId , name , blah blah ...
+    const notes = await Note.findAll({ 
+      attributes: { exclude: ['userId']},
+      include: { 
+        model: User, //need to import
+        attributes: ['name', "username"]
+      }
+    });
+
     res.json(notes);
   } catch (err) {
     console.error("Error fetching notes:", err.message);
